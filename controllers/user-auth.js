@@ -1,7 +1,9 @@
 'use strict';
+
 const User = require('../models/user');
-const userNotFound = { error : 'not found user' };
 const jwt = require('../services/jwt');
+
+const userNotFound = { error : 'not found user' };
 
 const UserAuth = (req, res) => {
   const user = req.body;
