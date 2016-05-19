@@ -1,9 +1,7 @@
 const User = require('../models/user');
 
-function UserController () {
-}
 
-UserController.prototype.create = function (req , res) {
+const UserController = (req , res) => {
   User.create(req.body)
     .then(user => success(201, user, res),
           err  => error(400, err, res))
@@ -18,4 +16,4 @@ function error (status , err, res) {
   return res.status(status).json(err);
 }
 
-module.exports = new UserController();
+module.exports = UserController;
