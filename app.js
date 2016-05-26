@@ -16,6 +16,7 @@ mongoose.connect('mongodb://localhost/test');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.disable('x-powered-by');
 app.use(jwt({ secret: secret}).unless({
   path: ['/',
     '/api/v1/auth',

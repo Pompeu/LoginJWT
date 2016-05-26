@@ -26,10 +26,12 @@ function validUser (data, user, res) {
 }
 
 function success (status, user, res) {
+  const token = jwt(user);
   if (!user) {
     return fail(401, userNotFound, res);
   }
-  res.status(status).json({ token : jwt(user) });
+  res.set('Authorization', token);
+  res.status(status).json({ token });
 }
 
 function fail (status, err, res) {

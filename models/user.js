@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const salt = bcrypt.genSaltSync(8);
+const salt = bcrypt.genSaltSync(12);
 const encript = pass => bcrypt.hashSync(pass, salt);
 
 const schema = new Schema({
@@ -14,7 +14,7 @@ const schema = new Schema({
 schema.statics.comparePass = (inpass, comparePass) =>
   new Promise((resolve, reject) => {
     bcrypt.compare(inpass, comparePass, (err, res) => {
-      !err && res ? resolve(res) : reject(res);
+      res ? resolve(res) : reject(res);
     });
   });
 
