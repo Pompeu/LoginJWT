@@ -1,15 +1,21 @@
 // file: models/user.js - created at 2015-11-28, 03:21
-function userHandler() {
-  var mongoose = require('mongoose');
-  var Schema = mongoose.Schema;
-  var schema = null;
+const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-  schema = new Schema({
-    email : {type : String, unique : true, required : true},
-    password : {type : String, required : true}
+const salt = bcrypt.genSaltSync(8);
+const encript = pass => bcrypt.hashSync(pass, salt);
+
+const schema = new Schema({
+  email    : { type : String, unique : true, required : true },
+  password : { type : String, required : true, set : encript }
+});
+
+schema.statics.comparePass = (inpass, comparePass) =>
+  new Promise((resolve, reject) => {
+    bcrypt.compare(inpass, comparePass, (err, res) => {
+      !err && res ? resolve(res) : reject(res);
+    });
   });
 
-  return mongoose.model('User', schema);
-}
-
-module.exports = exports = userHandler();
+module.exports = mongoose.model('User', schema);
