@@ -10,14 +10,14 @@ const GetOne = (req , res, next) => {
 
   User.findById(id, {password: 0})
     .then(user => user.jwtDecode(token))
-    .then(isWoner)
+    .then(user => isWoner(user, id))
     .then(user => createReponse(200, user, res))
     .catch(err => createReponse(401, err, res))  
 };
 
 module.exports = GetOne;
 
-function isWoner (user) {
+function isWoner (user, id) {
   if (user._id === id) { 
     return user;
   } 
