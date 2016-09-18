@@ -1,19 +1,14 @@
+'use strict';
+
 const User = require('../models/user');
+const createReponse = require('./helper/response.js');
 
+const createUser = (req , res) => {
 
-const UserController = (req , res) => {
   User.create(req.body)
-    .then(user => success(201, user, res),
-          err  => error(400, err, res))
-    .catch(err => error(400, err, res));
+    .then(user => createReponse(201, user, res))
+    .catch(err => createReponse(400, err, res));
+
 };
 
-function success (status, user, res) {
-  return res.status(status).json(user);
-}
-
-function error (status , err, res) {
-  return res.status(status).json(err);
-}
-
-module.exports = UserController;
+module.exports = createUser;

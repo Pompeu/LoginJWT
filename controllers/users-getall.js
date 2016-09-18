@@ -1,25 +1,22 @@
+'use strict';
+
 const User = require('../models/user');
+const createReponse = require('./helper/response.js');
 
 const UserControllerGetAll = (req , res) => {
-  const skip  = req.params.skip || 0;
-  const limit = req.params.limit || 5;
+
+  let skip  = req.params.skip || 0;
+  skip > 100 ? 100: Number(skip, 10); 
+
+  let limit = req.params.limit || 5;
+  limit > 100 ? 100 : Number(limit, 10);
 
   User.find({})
-    .skip(Number(skip,10))
-    .limit(Number(limit,10))
-    .sort({ email : 1 })
-    .exec()
-    .then(users => success(200, users, res),
-          err  => error(400, err, res))
-    .catch(err => error(400, err, res));
+    .skip(skip)
+    .limit(limit)
+    .sort({ email: 1 })
+    .then(users => createReponse(200, users, res))
+    .catch(err => createReponse(400, err, res));
 };
-
-function success (status, users, res) {
-  res.status(status).json(users);
-}
-
-function error (status , err, res) {
-  res.status(status).json(err);
-}
 
 module.exports = UserControllerGetAll;

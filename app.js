@@ -11,6 +11,7 @@ const auth = require('./routes/user-auth');
 
 const app = express();
 
+mongoose.Promise = Promise;
 mongoose.connect('mongodb://localhost/test');
 
 app.use(logger('dev'));
