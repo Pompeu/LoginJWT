@@ -18,7 +18,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.disable('x-powered-by');
-app.use(jwt({ secret: secret}).unless({
+app.use(jwt({ secret }).unless({
   path: ['/',
     '/api/v1/auth',
     { url :'/api/v1/users', methods : 'POST'}
@@ -43,7 +43,7 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
   app.use(function(err, req, res) {
     res.status(err.status || 500);
-    res.render('error', {
+    res.json({
       message: err.message,
       error: err
     });
@@ -54,7 +54,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res) {
   res.status(err.status || 500);
-  res.render('error', {
+  res.json({
     message: err.message,
     error: {}
   });

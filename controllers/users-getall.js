@@ -3,20 +3,23 @@
 const User = require('../models/user');
 const createReponse = require('./helper/response.js');
 
-const UserControllerGetAll = (req , res) => {
+const GetOne = (req , res, next) => {
 
-  let skip  = req.params.skip || 0;
-  skip > 100 ? 100: Number(skip, 10); 
+  const { id } = req.params;
+  const token = req.headers.authorization.split(' ')[1];
 
-  let limit = req.params.limit || 5;
-  limit > 100 ? 100 : Number(limit, 10);
-
-  User.find({})
-    .skip(skip)
-    .limit(limit)
-    .sort({ email: 1 })
-    .then(users => createReponse(200, users, res))
-    .catch(err => createReponse(400, err, res));
+  User.findById(id, {password: 0})
+    .then(user => user.jwtDecode(token))
+    .then(isWoner)
+    .then(user => createReponse(200, user, res))
+    .catch(err => createReponse(401, err, res))  
 };
 
-module.exports = UserControllerGetAll;
+module.exports = GetOne;
+
+function isWoner (user) {
+  if (user._id === id) { 
+    return user;
+  } 
+  throw new Error('do not has authorization');
+}

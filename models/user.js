@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const jwt = require('jsonwebtoken');
 const secret = require('../config/secret')();
 
-const salt = bcrypt.genSaltSync(12);
+const salt = bcrypt.genSaltSync(8);
 const encript = pass => bcrypt.hashSync(pass, salt);
 
 const schema = new Schema({
@@ -17,7 +17,7 @@ schema.methods.comparePass = function (bodyPassword) {
   const that = this;
   return new Promise((resolve, reject) => {
     bcrypt.compare(bodyPassword, this.password, (err, res) => {
-      res ? resolve(that) : reject(err || {error:  'password is dont match'});
+      res && !err ? resolve(that) : reject(err || {error:  'password is dont match'});
     });
   });
 };
@@ -30,6 +30,14 @@ schema.methods.jwtSign = function () {
     delete noPassUser.password;
     jwt.sign(noPassUser, secret, {expiresIn: '7d'}, (err, token) => {
       err ? reject(err) : resolve(token);
+    });
+  });
+};
+
+schema.methods.jwtDecode = function (jwtToken) { 
+  return new Promise((resolve, reject) => {
+    jwt.verify(jwtToken, secret, (err, decoded) => {
+      err? reject(err) : resolve(decoded);
     });
   });
 };

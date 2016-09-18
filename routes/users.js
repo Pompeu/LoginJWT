@@ -1,12 +1,12 @@
+'use strict';
+
 const express    = require('express');
 const router     = express.Router();
 const userCreate = require('../controllers/user-create');
-const userGetAll = require('../controllers/users-getall');
+const userGet = require('../controllers/users-getall');
 
 router
   .post('/', userCreate)
-  .get('/', userGetAll)
-  .get('/:skip', userGetAll)
-  .get('/:limit/:skip', userGetAll);
+  .get('/:id', userGet);
 
 module.exports = router;
