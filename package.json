@@ -5,21 +5,25 @@
   "scripts": {
     "start-debug": "DEBUG=LoginJWT:* nodemon ./bin/www",
     "start": "node ./bin/www",
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha ./test/**/*test.js"
+    "test": "NODE_ENV=testing ./node_modules/.bin/mocha ./test/**/*test.js",
+    "prepare": "husky install"
   },
   "dependencies": {
-    "bcrypt": "^0.8.6",
+    "bcrypt": "3.0.6",
+    "bluebird": "^3.5.0",
     "body-parser": "~1.15.2",
     "debug": "~2.2.0",
     "express": "~4.14.0",
     "express-jwt": "^5.0.0",
     "jsonwebtoken": "^7.1.9",
+    "mongodb-memory-server": "^7.3.1",
     "mongoose": "^4.4.17",
     "morgan": "~1.7.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
+    "husky": "^7.0.1",
     "mocha": "^3.0.2"
   }
 }
