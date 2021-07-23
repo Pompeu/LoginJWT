@@ -9,7 +9,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "bcrypt": "3.0.6",
+    "bcrypt": "5.0.0",
     "bluebird": "^3.5.0",
     "body-parser": "~1.15.2",
     "debug": "~2.2.0",
